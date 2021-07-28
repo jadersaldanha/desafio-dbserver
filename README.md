@@ -1,6 +1,7 @@
 # desafio-automacao-testes-dbserver
 
-Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara, Cucumber para o desafio técnico em automação de testes da empresa DBServer.
+Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara e Cucumber para o desafio técnico em automação de testes da empresa DBServer.
+Sistema: https://demoqa.com/login.
 
 ### Setup - EXECUÇÃO LOCAL
 
@@ -27,13 +28,16 @@ Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara, Cu
 
 ### Cenarios mapeados
 
+Em razão do recapctha não foi possível realizar o teste de cadastro de usuario por automação, a recomendação seria ter um ambiente com esse feature toggle desligado para que o texte case fosse implementado.
 
+https://github.com/jadersaldanha/desafio-dbserver/blob/master/features/specifications/book_store_application.feature
 
 ### Rodando os testes localmente
 
-- Clonar repositório e na pasta do projeto:
+- Clonar repositório:
+git clone https://github.com/jadersaldanha/desafio-dbserver.git
 
-- Pela linha de comando
+- Pela linha de comando e na pasta do projeto:
   ```
     (Para rodar todos os testes)
     $ cucumber
@@ -45,7 +49,8 @@ Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara, Cu
 
 ### Pode ser executado e testado no Circle CI:
 
-Artefatos gerados com relatórios da execução.
+A cada commit no repositório de testes é disparado uma pipeline em docker de uma imagem configurada com selenium, ruby e chrome headless para ser executado na nuvem.
+Artefatos gerados com relatórios da execução. Pode-se executar pipelines a qualquer momento pela interface do circleCI.
 
 https://app.circleci.com/pipelines/github/jadersaldanha/desafio-dbserver
 
