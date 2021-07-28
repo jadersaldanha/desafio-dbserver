@@ -14,6 +14,7 @@ Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('start-maximized')
   options.add_argument('disable-infobars')
+  options.add_argument('--enable-features=NetworkService,NetworkServiceInProcess')
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
