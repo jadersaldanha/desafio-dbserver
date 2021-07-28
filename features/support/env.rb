@@ -5,7 +5,7 @@ require 'rspec'
 
 Capybara.configure do |config|
   include Capybara::DSL
-  config.default_max_wait_time = 40
+  config.default_max_wait_time = 120
   config.app_host = "https://demoqa.com"
   config.default_driver = BROWSER = (ENV['DRIVER'] || 'chrome').to_sym
 end
