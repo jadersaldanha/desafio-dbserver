@@ -2,7 +2,7 @@
 
 Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara, Cucumber.
 
-### Setup
+### Setup - EXECUÇÃO LOCAL
 
 1. Dependencias globais
 
@@ -27,9 +27,7 @@ Projeto de automacao de testes Web. Utilizando as tecnologias Ruby, Capybara, Cu
 
 ### Cenarios mapeados
 
-https://github.com/jadersaldanha/simulador-investimento-poupanca/blob/master/features/specifications/simulacao-investimento.feature
-
-### Rodando os testes
+### Rodando os testes localmente
 
 - Pela linha de comando
   ```
