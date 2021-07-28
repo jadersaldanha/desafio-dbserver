@@ -1,0 +1,84 @@
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.1
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4-node
+        environment:
+          RAILS_ENV: test
+    working_directory: ~/desafio-dbserver
+    steps:
+      - checkout
+      - save_cache:
+          key: grt-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/desafio-dbserver
+
+  bundle_dependencies:
+    working_directory: ~/desafio-dbserver
+    docker:
+      - image: circleci/ruby:2.4-node
+    steps:
+      - restore_cache:
+          keys:
+            - grt-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - grt-bundle-{{ .Branch }}
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - save_cache:
+          key: grt-bundle-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ~/desafio-dbserver/vendor/bundle
+      - save_cache:
+          key: grt-bundle-{{ .Branch }}
+          paths:
+            - ~/desafio-dbserver/vendor/bundle
+
+  chrome_test:
+    working_directory: ~/desafio-dbserver
+    docker:
+      - image: cimg/ruby:2.7-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - restore_cache:
+          keys:
+            - grt-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - grt-bundle-{{ .Branch }}
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+      - run:
+          name: Run Cucumber
+          command: |
+            bundle exec cucumber --format pretty --format html --out=test_results/features_report.html
+
+      # Save test results for timing analysis
+      - store_test_results:
+          path: ~/desafio-dbserver/test_results
+      - store_artifacts:
+          path: ~/desafio-dbserver/test_results
+
+workflows:
+  version: 2
+  build_and_test:
+    #    triggers:
+    #      - schedule:
+    #          cron: "* 4 * * *"
+    #          filters:
+    #            branches:
+    #              only: master
+    jobs:
+      - build
+      - bundle_dependencies:
+          requires:
+            - build
+      - chrome_test:
+          requires:
+            - bundle_dependencies
